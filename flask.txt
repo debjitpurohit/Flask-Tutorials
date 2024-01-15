@@ -1,0 +1,8 @@
+flask is a web framework written in python
+--made by armin ronachar 
+--it based on WSGI= web service gateway interface and jinja2 template ...here wsgi is a protocol/standard
+--here wsgi is a protocol/standard used to connect between our web app and web server 
+--jinja2 is a web templating system its basically combine web template and data source(ML model) for rendering dynamic pages 
+
+
+pip install flask
