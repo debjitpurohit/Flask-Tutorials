@@ -2,8 +2,12 @@
 ##its bacially jinja2 template engine
 #### http verb get and put
 from flask import Flask , redirect , url_for , render_template , request # request help to read posted values
-app= Flask(__name__)
+from flask_pymongo import PyMongo
 
+
+app= Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/debjitDatabase"
+mongo = PyMongo(app)
 
 @app.route('/') 
 def home():
@@ -45,6 +49,18 @@ def submit():
         c = float(request.form['c'])
         data_science = float(request.form['datascience'])
         totalscore = (science + maths + c + data_science)/4
+        mongo.db.inventory.insert_one(
+            {'science':science,
+             'maths':maths,
+             'c':c,
+             'data_science':data_science,
+             'totalscore':totalscore}
+             )
+        
+        a = mongo.db.inventory.find({})
+        print(a ,type(a))
+        for i in a:
+            print(i['science'])
     # res = ""
     # if totalscore<50:
     #     res = "fail"
@@ -53,5 +69,5 @@ def submit():
     return redirect(url_for('results',marks=totalscore))           
 
 
-if __name__ == "__main__": 
-    app.run(debug=True)
+# if __name__ == "__main__": 
+app.run(debug=True)
